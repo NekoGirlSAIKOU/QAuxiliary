@@ -40,12 +40,9 @@ import io.github.qauxv.BuildConfig
 import io.github.qauxv.R
 import io.github.qauxv.activity.ConfigV2Activity
 import io.github.qauxv.activity.SettingsUiFragmentHostActivity
-import io.github.qauxv.base.ISwitchCellAgent
 import io.github.qauxv.dsl.item.CategoryItem
 import io.github.qauxv.dsl.item.DslTMsgListItemInflatable
 import io.github.qauxv.dsl.item.TextListItem
-import io.github.qauxv.dsl.item.TextSwitchItem
-import io.github.qauxv.util.CliOper
 import io.github.qauxv.util.hostInfo
 import io.github.qauxv.util.isInHostProcess
 import io.github.qauxv.util.isInModuleProcess
@@ -77,7 +74,7 @@ class AboutFragment : BaseRootLayoutFragment() {
     private val hierarchy: Array<DslTMsgListItemInflatable> by lazy {
         arrayOf(
                 CategoryItem("版本") {
-                    textItem("模块版本", value = BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")")
+                    textItem("模块版本", value = "Arks." + BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")")
                     textItem("构建时间", value = getBuildTimeString())
                     if (!isInModuleProcess) {
                         textItem(hostInfo.hostName, value = hostInfo.versionName + "(" + hostInfo.versionCode32 + ")")
@@ -111,6 +108,7 @@ class AboutFragment : BaseRootLayoutFragment() {
                 },
                 CategoryItem("开放源代码许可") {
                     notices.forEach { this@CategoryItem.add(noticeToUiItem(it)) }
+                    textItem(hostInfo.hostName, value = hostInfo.versionName + "(" + hostInfo.versionCode32 + ")")
                 }
             },
             CategoryItem("隐私与协议") {
@@ -164,18 +162,6 @@ class AboutFragment : BaseRootLayoutFragment() {
     }
 
     private val GITHUB_URL = "https://github.com/cinit/QAuxiliary"
-
-    private val mAllowAppCenterStatics: ISwitchCellAgent = object : ISwitchCellAgent {
-        override val isCheckable = true
-        override var isChecked: Boolean
-            get() = CliOper.isAppCenterAllowed()
-            set(value) {
-                CliOper.setAppCenterAllowed(value)
-                if (value) {
-                    CliOper.__init__(hostInfo.application)
-                }
-            }
-    }
 
     private val notices: Array<LicenseNotice> by lazy {
         arrayOf(
@@ -232,6 +218,12 @@ class AboutFragment : BaseRootLayoutFragment() {
                 "https://github.com/yujincheng08/BiliRoaming",
                 "yujincheng08",
                 "GPL-3.0 License"
+            ),
+            LicenseNotice(
+                "QQ-Notify-Evolution",
+                "https://github.com/ichenhe/QQ-Notify-Evolution",
+                "ichenhe",
+                "AGPL-3.0 License"
             )
         )
     }

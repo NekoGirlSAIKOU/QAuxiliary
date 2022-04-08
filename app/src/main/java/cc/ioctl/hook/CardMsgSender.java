@@ -33,7 +33,6 @@ import io.github.qauxv.base.annotation.FunctionHookEntry;
 import io.github.qauxv.base.annotation.UiItemAgentEntry;
 import io.github.qauxv.bridge.AppRuntimeHelper;
 import io.github.qauxv.dsl.FunctionEntryRouter.Locations.Auxiliary;
-import io.github.qauxv.remote.TransactionHelper;
 import io.github.qauxv.router.decorator.BaseSwitchFunctionDecorator;
 import io.github.qauxv.router.decorator.IInputButtonDecorator;
 import io.github.qauxv.router.dispacher.InputButtonHookDispatcher;
@@ -104,11 +103,6 @@ public class CardMsgSender extends BaseSwitchFunctionDecorator implements IInput
             SyncUtils.async(() -> {
                 if (text.contains("<?xml")) {
                     try {
-                        String errorMsg = TransactionHelper.postCardMsg(uin, text);
-                        if (errorMsg != null) {
-                            Toasts.error(ctx1, errorMsg);
-                            return;
-                        }
                         if (CardMsgSender.ntSendCardMsg(qqApp, session, text)) {
                             SyncUtils.runOnUiThread(() -> input.setText(""));
                         } else {
@@ -123,11 +117,6 @@ public class CardMsgSender extends BaseSwitchFunctionDecorator implements IInput
                     }
                 } else if (text.contains("{\"")) {
                     try {
-                        String errorMsg = TransactionHelper.postCardMsg(uin, text);
-                        if (errorMsg != null) {
-                            Toasts.error(ctx1, errorMsg);
-                            return;
-                        }
                         // Object arkMsg = load("com.tencent.mobileqq.data.ArkAppMessage").newInstance();
                         if (CardMsgSender.ntSendCardMsg(qqApp, session, text)) {
                             SyncUtils.runOnUiThread(() -> input.setText(""));

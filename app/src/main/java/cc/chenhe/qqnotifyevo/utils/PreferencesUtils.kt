@@ -19,44 +19,29 @@
  * <https://www.gnu.org/licenses/>
  * <https://github.com/ferredoxin/QNotified/blob/master/LICENSE.md>.
  */
-package me.singleneuron.util
 
-import android.content.Intent
-import android.view.View
-import android.view.ViewGroup
-import io.github.qauxv.util.Log
-import me.singleneuron.data.CardMsgCheckResult
-import java.io.BufferedReader
-import java.io.File
-import java.io.IOException
+package cc.chenhe.qqnotifyevo.utils
 
-fun ViewGroup.addViewConditionally(view: View, condition: Boolean) {
-    if (condition) {
-        this.addView(view)
-    }
-}
+import androidx.annotation.IntDef
+import java.util.concurrent.TimeUnit
 
-@Throws(IOException::class)
-fun readFile(file: File): String {
-    return file.readText()
-}
+const val ICON_AUTO = 0
+const val ICON_QQ = 1
 
-@Throws(IOException::class)
-fun readFromBufferedReader(bufferedReader: BufferedReader): String {
-    return bufferedReader.readText()
-}
+@Retention(AnnotationRetention.SOURCE)
+@IntDef(ICON_AUTO, ICON_QQ)
+annotation class Icon
 
-fun Intent.dump() {
-    dumpIntent(this)
-}
+@Icon
+fun getIconMode(): Int = ICON_AUTO
 
-fun dumpIntent(intent: Intent) {
-    Log.d(intent.toString())
-    Log.d(intent.extras.toString())
-    Log.d(Log.getStackTraceString(Throwable()))
-}
+fun showSpecialPrefix(): Boolean = true
 
-fun checkCardMsg(originString: String): CardMsgCheckResult {
-    return CardMsgCheckResult(true)
-}
+/**
+ * 特别关注的群消息通知渠道。
+ *
+ * @return `true` 为特别关心渠道，`false` 为群消息渠道。
+ */
+fun specialGroupMsgChannel(): Boolean =  false
 
+fun getAvatarCachePeriod(): Long = TimeUnit.DAYS.toMillis(1)

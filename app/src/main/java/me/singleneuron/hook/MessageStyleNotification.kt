@@ -56,9 +56,7 @@ import xyz.nextalone.util.hookAfter
 import xyz.nextalone.util.method
 import kotlin.collections.set
 
-@FunctionHookEntry
-@UiItemAgentEntry
-object MessageStyleNotification : CommonSwitchFunctionHook(SyncUtils.PROC_MAIN or SyncUtils.PROC_MSF) {
+object MessageStyleNotification : CommonSwitchFunctionHook(SyncUtils.PROC_ANY) {
 
     override val name = "MessageStyle通知"
     override val description = "致敬QQ Helper"
