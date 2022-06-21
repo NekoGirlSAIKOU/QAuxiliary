@@ -76,11 +76,41 @@ class AboutFragment : BaseRootLayoutFragment() {
 
     private val hierarchy: Array<DslTMsgListItemInflatable> by lazy {
         arrayOf(
-            CategoryItem("版本") {
-                textItem("模块版本", value = BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")")
-                textItem("构建时间", value = getBuildTimeString())
-                if (!isInModuleProcess) {
-                    textItem(hostInfo.hostName, value = hostInfo.versionName + "(" + hostInfo.versionCode32 + ")")
+                CategoryItem("版本") {
+                    textItem("模块版本", value = BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")")
+                    textItem("构建时间", value = getBuildTimeString())
+                    if (!isInModuleProcess) {
+                        textItem(hostInfo.hostName, value = hostInfo.versionName + "(" + hostInfo.versionCode32 + ")")
+                    }
+                },
+                CategoryItem("隐私与协议") {
+                    textItem("用户协议与隐私政策") {
+                        SettingsUiFragmentHostActivity.startFragmentWithContext(
+                                context = requireContext(),
+                                fragmentClass = EulaFragment::class.java
+                        )
+                    }
+                    if (!isInModuleProcess) {
+                        add(TextSwitchItem("AppCenter 匿名统计与崩溃收集",
+                                summary = "我们使用 Microsoft AppCenter 来匿名地收集崩溃信息和最常被人们使用的功能和一些使用习惯数据来使得 QAuxiliary 变得更加实用",
+                                switchAgent = mAllowAppCenterStatics))
+                    }
+                },
+                CategoryItem("群组") {
+                    textItem("Telegram 频道", value = "@QAuxiliary") {
+                        openUrl("https://t.me/QAuxiliary")
+                    }
+                    textItem("Telegram 群组", value = "@QAuxiliaryChat") {
+                        openUrl("https://t.me/QAuxiliaryChat")
+                    }
+                },
+                CategoryItem("源代码") {
+                    textItem("GitHub", value = "cinit/QAuxiliary") {
+                        openUrl(GITHUB_URL)
+                    }
+                },
+                CategoryItem("开放源代码许可") {
+                    notices.forEach { this@CategoryItem.add(noticeToUiItem(it)) }
                 }
             },
             CategoryItem("隐私与协议") {
