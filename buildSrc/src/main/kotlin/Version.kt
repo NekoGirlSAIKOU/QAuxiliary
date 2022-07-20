@@ -10,7 +10,6 @@ object Version {
 
     private const val defaultNdkVersion = "23.1.7779620"
     private const val defaultCMakeVersion = "3.22.1"
-
     fun getNdkVersion(project: Project): String {
         val prop = getLocalProperty(project, "qauxv.override.ndk.version")
         val env = getEnvVariable("QAUXV_OVERRIDE_NDK_VERSION")
